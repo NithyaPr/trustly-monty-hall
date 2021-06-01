@@ -1,0 +1,7 @@
+HELP.md
+target/
+
+.metadata
+.idea
+.mvn
+trustly-monty-hall.iml
