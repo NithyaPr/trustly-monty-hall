@@ -9,10 +9,10 @@
 
 The game can be started using,
 
--v1/startGame endpoint. A unique id is generated and seen in the Id field in response
--v1/pickBox/{gameId}. User can select the box which will be picked up
--v1/reveal/{gameId}. Host can be used to reveal the box
--v1/switch/{gameId} and v1/stay/{gameId} can be used to switch or stay with the option
+1. v1/startGame endpoint. A unique id is generated and seen in the Id field in response
+2. v1/pickBox/{gameId}. User can select the box which will be picked up
+3. v1/reveal/{gameId}. Host can be used to reveal the box
+4. v1/switch/{gameId} and v1/stay/{gameId} can be used to switch or stay with the option
 
 
 Monty hall problem - For more information https://en.wikipedia.org/wiki/Monty_Hall_problem
