@@ -2,6 +2,7 @@ package se.nithya.trustlymontyhall.controller;
 
 import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.lang3.RandomUtils;
+import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -12,62 +13,43 @@ import se.nithya.trustlymontyhall.exception.MontyHallException;
 
 import java.util.Optional;
 
+
 @RestController
 @Slf4j
 public class MontyHallController {
 
     private final MontyHallBusinessBridge montyHallBusinessBridge;
 
-    public MontyHallController(MontyHallBusinessBridge montyHallBusinessBridge) {
+    public MontyHallController( @Qualifier("dbMontyHall")  MontyHallBusinessBridge montyHallBusinessBridge) {
         this.montyHallBusinessBridge = montyHallBusinessBridge;
     }
 
     @PostMapping("/v1/startGame")
-    public ResponseEntity startGame(@RequestHeader HttpHeaders headers) {
-        String newGameId = Long.toString(RandomUtils.nextLong(1, 1000000), 4);
-
-        return ResponseEntity.status(HttpStatus.OK).body(montyHallBusinessBridge.startGame(newGameId).get());
+    public ResponseEntity startGame() {
+        return ResponseEntity.status(HttpStatus.OK).body(montyHallBusinessBridge.startGame());
     }
 
     @PutMapping("/v1/pickBox/{gameId}")
-    public ResponseEntity pickBox(@RequestHeader HttpHeaders headers, @PathVariable(value = "gameId") String gameId,
+    public ResponseEntity pickBox(@PathVariable(value = "gameId") String gameId,
                                   @RequestParam(value = "pickBox") Integer pickBox) {
-        Optional<Game> game = montyHallBusinessBridge.getGame(gameId);
-        if (game.isEmpty()) {
-            throw new MontyHallException(HttpStatus.BAD_REQUEST,
-                    String.format("Game finished/No Game exists for the id %s ", gameId));
-        }
-        return ResponseEntity.status(HttpStatus.OK).body(montyHallBusinessBridge.pickBox(game.get(),pickBox));
+        return ResponseEntity.status(HttpStatus.OK).body(montyHallBusinessBridge.pickBox(gameId,pickBox));
     }
 
     @PutMapping("/v1/reveal/{gameId}")
-    public ResponseEntity reveal(@RequestHeader HttpHeaders headers, @PathVariable(value = "gameId") String gameId) {
-        Optional<Game> game = montyHallBusinessBridge.getGame(gameId);
-        if (game.isEmpty()) {
-            throw new MontyHallException(HttpStatus.BAD_REQUEST,
-                    String.format("Game finished/No Game exists for the id %s ", gameId));
-        }
-        return ResponseEntity.status(HttpStatus.OK).body(montyHallBusinessBridge.reveal(game.get()));
+    public ResponseEntity reveal(@PathVariable(value = "gameId") String gameId) {
+
+        return ResponseEntity.status(HttpStatus.OK).body(montyHallBusinessBridge.reveal(gameId));
     }
 
     @PutMapping("/v1/switch/{gameId}")
-    public ResponseEntity switchBox(@RequestHeader HttpHeaders headers, @PathVariable(value = "gameId") String gameId) {
-        Optional<Game> game = montyHallBusinessBridge.getGame(gameId);
-        if (game.isEmpty()) {
-            throw new MontyHallException(HttpStatus.BAD_REQUEST,
-                    String.format("Game finished/No Game exists for the id %s ", gameId));
-        }
-        return ResponseEntity.status(HttpStatus.OK).body(montyHallBusinessBridge.switchBox(game.get()));
+    public ResponseEntity switchBox(@PathVariable(value = "gameId") String gameId) {
+        return ResponseEntity.status(HttpStatus.OK).body(montyHallBusinessBridge.switchBox(gameId));
     }
 
     @PutMapping("/v1/stay/{gameId}")
-    public ResponseEntity stayBox(@RequestHeader HttpHeaders headers, @PathVariable(value = "gameId") String gameId) {
-        Optional<Game> game = montyHallBusinessBridge.getGame(gameId);
-        if (game.isEmpty()) {
-            throw new MontyHallException(HttpStatus.BAD_REQUEST,
-                    String.format("Game finished/No Game exists for the id %s ", gameId));
-        }
-        return ResponseEntity.status(HttpStatus.OK).body(montyHallBusinessBridge.stayBox(game.get()));
+    public ResponseEntity stayBox(@PathVariable(value = "gameId") String gameId) {
+
+        return ResponseEntity.status(HttpStatus.OK).body(montyHallBusinessBridge.stayBox(gameId));
     }
 
 }

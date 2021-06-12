@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<databaseChangeLog xmlns="http://www.liquibase.org/xml/ns/dbchangelog"
+                   xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+                   xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-3.4.xsd">
+
+    <changeSet id="DDL_001" author="Nithya">
+        <sqlFile path="/db/changelog/ddl/001_create_table_game.sql" splitStatements="false"></sqlFile>
+    </changeSet>
+    <changeSet id="DDL_002" author="Nithya">
+        <sqlFile path="/db/changelog/ddl/002_alter_table_game.sql" splitStatements="false"></sqlFile>
+    </changeSet>
+
+</databaseChangeLog>

@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<databaseChangeLog
+        xmlns="http://www.liquibase.org/xml/ns/dbchangelog"
+        xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+        xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog
+                      http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-3.8.xsd">
+
+    <!-- The change logs run in order.
+        So change-logs should always be placed in following order: DDL -> DML -> Repeatable -> Compile Invalid Objects -->
+    <include file="db/changelog/ddl/ddl-changelog.xml"/>
+    <include file="db/changelog/dml/dml-changelog.xml"/>
+
+</databaseChangeLog>
