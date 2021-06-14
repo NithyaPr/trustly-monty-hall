@@ -2,9 +2,9 @@ package se.nithya.trustlymontyhall.exception;
 
 public class ApiError {
 
-    private String code;
-    private String reason;
-    private String message;
+    private final String code;
+    private final String reason;
+    private final String message;
 
     public ApiError(String code, String reason, String message) {
         this.code = code;

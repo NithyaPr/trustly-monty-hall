@@ -4,10 +4,6 @@ package se.nithya.trustlymontyhall.businessbridge;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.lang3.RandomUtils;
 import org.springframework.beans.factory.annotation.Qualifier;
-import org.springframework.cache.annotation.CacheEvict;
-import org.springframework.cache.annotation.CachePut;
-import org.springframework.cache.annotation.Cacheable;
-import org.springframework.cache.annotation.Caching;
 import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Component;
 import se.nithya.trustlymontyhall.dto.Game;
@@ -29,7 +25,8 @@ public class CacheMontyHallBusinessBridgeImpl implements  MontyHallBusinessBridg
 
     public Game startGame() {
         String newGameId = Long.toString(RandomUtils.nextLong(1, 1000000), 4);
-        return cacheRepository.startGame(newGameId).get();
+        return cacheRepository.startGame(newGameId).orElseThrow(()->
+                new MontyHallException(HttpStatus.INTERNAL_SERVER_ERROR, "Issue in starting new game"));
     }
 
     public Game getGame(String gameId) {
