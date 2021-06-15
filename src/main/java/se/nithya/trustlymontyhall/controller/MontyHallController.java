@@ -5,8 +5,10 @@ import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
+import se.nithya.trustlymontyhall.businessbridge.EventBusinessBridge;
 import se.nithya.trustlymontyhall.businessbridge.MontyHallBusinessBridge;
 import se.nithya.trustlymontyhall.dto.Game;
+import se.nithya.trustlymontyhall.rabbit.EventPublisher;
 
 
 @RestController
@@ -15,8 +17,12 @@ public class MontyHallController {
 
     private final MontyHallBusinessBridge montyHallBusinessBridge;
 
-    public MontyHallController( @Qualifier("dbMontyHall")  MontyHallBusinessBridge montyHallBusinessBridge) {
+    private final EventBusinessBridge eventBusinessBridge;
+
+    public MontyHallController(@Qualifier("dbMontyHall") MontyHallBusinessBridge montyHallBusinessBridge,
+                               EventBusinessBridge eventBusinessBridge) {
         this.montyHallBusinessBridge = montyHallBusinessBridge;
+        this.eventBusinessBridge = eventBusinessBridge;
     }
 
     @PostMapping("/v1/game/start")
@@ -38,13 +44,16 @@ public class MontyHallController {
 
     @PutMapping("/v1/game/{gameId}/switch")
     public ResponseEntity<String> switchBox(@PathVariable(value = "gameId") String gameId) {
-        return ResponseEntity.status(HttpStatus.OK).body(montyHallBusinessBridge.switchBox(gameId));
+        String result = montyHallBusinessBridge.switchBox(gameId);
+        eventBusinessBridge.sendMessage(gameId);
+        return ResponseEntity.status(HttpStatus.OK).body(result);
     }
 
     @PutMapping("/v1/game/{gameId}/stay")
     public ResponseEntity<String> stayBox(@PathVariable(value = "gameId") String gameId) {
-
-        return ResponseEntity.status(HttpStatus.OK).body(montyHallBusinessBridge.stayBox(gameId));
+        String result = montyHallBusinessBridge.stayBox(gameId);
+        eventBusinessBridge.sendMessage(gameId);
+        return ResponseEntity.status(HttpStatus.OK).body(result);
     }
 
 }

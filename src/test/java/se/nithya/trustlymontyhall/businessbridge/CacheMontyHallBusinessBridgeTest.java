@@ -9,6 +9,7 @@ import org.springframework.test.context.junit.jupiter.SpringExtension;
 import se.nithya.trustlymontyhall.dto.Game;
 import se.nithya.trustlymontyhall.exception.MontyHallException;
 import se.nithya.trustlymontyhall.repository.cache.CacheRepository;
+import se.nithya.trustlymontyhall.repository.db.GameStatRepository;
 
 import java.util.Optional;
 
@@ -23,6 +24,8 @@ class CacheMontyHallBusinessBridgeTest {
 
     @Mock
     CacheRepository cacheRepository;
+    @Mock
+    GameStatRepository gameStatRepository;
 
     @InjectMocks
     CacheMontyHallBusinessBridgeImpl cacheMontyHallBusinessBridge;

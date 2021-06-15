@@ -9,6 +9,7 @@ import org.springframework.stereotype.Component;
 import se.nithya.trustlymontyhall.dto.Game;
 import se.nithya.trustlymontyhall.exception.MontyHallException;
 import se.nithya.trustlymontyhall.repository.cache.CacheRepository;
+import se.nithya.trustlymontyhall.repository.db.GameStatRepository;
 
 import java.util.Optional;
 import java.util.Random;
@@ -16,17 +17,23 @@ import java.util.Random;
 @Component
 @Slf4j
 @Qualifier("cacheMontyHall")
-public class CacheMontyHallBusinessBridgeImpl implements  MontyHallBusinessBridge{
+public class CacheMontyHallBusinessBridgeImpl extends AbstractMontyHallBusinessBridge
+        implements  MontyHallBusinessBridge{
 
     private final CacheRepository cacheRepository;
-    public CacheMontyHallBusinessBridgeImpl(CacheRepository cacheRepository) {
+
+    public CacheMontyHallBusinessBridgeImpl(CacheRepository cacheRepository,
+                                            GameStatRepository gameStatRepository) {
+        super(gameStatRepository);
         this.cacheRepository = cacheRepository;
     }
 
     public Game startGame() {
         String newGameId = Long.toString(RandomUtils.nextLong(1, 1000000), 4);
-        return cacheRepository.startGame(newGameId).orElseThrow(()->
+        Game game = cacheRepository.startGame(newGameId).orElseThrow(()->
                 new MontyHallException(HttpStatus.INTERNAL_SERVER_ERROR, "Issue in starting new game"));
+        initializeGameStat(newGameId);
+        return game;
     }
 
     public Game getGame(String gameId) {
@@ -69,14 +76,17 @@ public class CacheMontyHallBusinessBridgeImpl implements  MontyHallBusinessBridg
 
     public String switchBox(String gameId) {
         Game game = getGame(gameId);
-        return cacheRepository.switchBox(game);
+        String result = cacheRepository.switchBox(game);
+        updateGameStat(gameId);
+        return result;
     }
-
 
     public String stayBox(String gameId) {
         Game game = getGame(gameId);
+        String result = cacheRepository.stayBox(game);
 
-        return cacheRepository.stayBox(game);
+        updateGameStat(gameId);
+        return result;
 
     }
 }

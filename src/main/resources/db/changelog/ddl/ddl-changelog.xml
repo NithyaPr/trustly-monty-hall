@@ -9,5 +9,7 @@
     <changeSet id="DDL_002" author="Nithya">
         <sqlFile path="/db/changelog/ddl/002_alter_table_game.sql" splitStatements="false"></sqlFile>
     </changeSet>
-
+    <changeSet id="DDL_003" author="Nithya">
+        <sqlFile path="/db/changelog/ddl/003_create_table_gamestat.sql" splitStatements="false"></sqlFile>
+    </changeSet>
 </databaseChangeLog>

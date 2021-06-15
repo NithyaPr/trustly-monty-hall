@@ -8,6 +8,7 @@ import org.springframework.test.context.junit.jupiter.SpringExtension;
 import se.nithya.trustlymontyhall.dto.Game;
 import se.nithya.trustlymontyhall.exception.MontyHallException;
 import se.nithya.trustlymontyhall.repository.db.GameRepository;
+import se.nithya.trustlymontyhall.repository.db.GameStatRepository;
 import se.nithya.trustlymontyhall.repository.db.model.GameModel;
 
 import java.time.LocalDateTime;
@@ -23,6 +24,9 @@ import static org.mockito.Mockito.when;
 class RelationalDBMontyHallBusinessBridgeTest {
     @Mock
     GameRepository gameRepository;
+
+    @Mock
+    GameStatRepository gameStatRepository;
 
     @InjectMocks
     RelationalDBMontyHallBusinessBridgeImpl montyHallBusinessBridge;

@@ -8,6 +8,7 @@ import org.springframework.stereotype.Component;
 import se.nithya.trustlymontyhall.dto.Game;
 import se.nithya.trustlymontyhall.exception.MontyHallException;
 import se.nithya.trustlymontyhall.repository.db.GameRepository;
+import se.nithya.trustlymontyhall.repository.db.GameStatRepository;
 import se.nithya.trustlymontyhall.repository.db.model.GameModel;
 
 import java.time.LocalDateTime;
@@ -17,11 +18,14 @@ import java.util.Random;
 @Component
 @Slf4j
 @Qualifier("dbMontyHall")
-public class RelationalDBMontyHallBusinessBridgeImpl implements MontyHallBusinessBridge{
+public class RelationalDBMontyHallBusinessBridgeImpl extends AbstractMontyHallBusinessBridge
+        implements MontyHallBusinessBridge{
 
     private final GameRepository gameRepository;
 
-    public RelationalDBMontyHallBusinessBridgeImpl(GameRepository gameRepository) {
+    public RelationalDBMontyHallBusinessBridgeImpl(GameRepository gameRepository,
+                                                   GameStatRepository gameStatRepository) {
+        super(gameStatRepository);
         this.gameRepository = gameRepository;
     }
 
@@ -37,6 +41,8 @@ public class RelationalDBMontyHallBusinessBridgeImpl implements MontyHallBusines
         game.setCreatedDate(LocalDateTime.now());
         GameModel gameUpdated = gameRepository.save(game);
         log.info("gameUpdated {} " , gameUpdated);
+        initializeGameStat(newGameId);
+
         return getGameDTO(game);
     }
 
@@ -99,6 +105,8 @@ public class RelationalDBMontyHallBusinessBridgeImpl implements MontyHallBusines
 
         game.setResult(result);
         gameRepository.save(game);
+        updateGameStat(gameId);
+
         return result;
     }
 
@@ -114,6 +122,7 @@ public class RelationalDBMontyHallBusinessBridgeImpl implements MontyHallBusines
         }
         game.setResult(result);
         gameRepository.save(game);
+        updateGameStat(gameId);
 
         return result;
     }
