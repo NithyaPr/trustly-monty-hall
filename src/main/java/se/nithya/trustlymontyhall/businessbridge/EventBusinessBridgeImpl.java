@@ -23,20 +23,20 @@ public class EventBusinessBridgeImpl implements EventBusinessBridge{
     }
 
     @Override
-    public void sendMessage(String gameId) {
+    public void sendMessage(String gameId, String status, String result) {
         Optional<GameStatModel> gameStat =  gameStatRepository.findById(gameId);
 
         if(gameStat.isEmpty()) {
             log.error("Error in sending game update event for game Id {} : No game Id found " , gameId);
             return;
         }
-        eventPublisher.sendMessage(buildGameStat(gameStat.get()));
+        eventPublisher.sendMessage(buildGameStat(gameStat.get(), status, result));
     }
 
-    private GameStat buildGameStat(GameStatModel statModel) {
+    private GameStat buildGameStat(GameStatModel statModel, String status, String result) {
         return GameStat.builder().lossCount(String.valueOf(statModel.getLossCount()))
                                 .winCount(String.valueOf(statModel.getWinCount()))
-                .status("CLOSED").id(statModel.getId()).build();
+                .status(status).result(result).id(statModel.getId()).build();
     }
 }
 

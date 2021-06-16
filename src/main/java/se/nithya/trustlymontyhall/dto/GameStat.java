@@ -1,8 +1,10 @@
 package se.nithya.trustlymontyhall.dto;
 
 import lombok.Builder;
+import lombok.Data;
 
 @Builder(builderClassName = "Builder")
+@Data
 public class GameStat {
 
     private String id;

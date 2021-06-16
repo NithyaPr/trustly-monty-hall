@@ -27,7 +27,9 @@ public class MontyHallController {
 
     @PostMapping("/v1/game/start")
     public ResponseEntity<Game> startGame() {
-        return ResponseEntity.status(HttpStatus.OK).body(montyHallBusinessBridge.startGame());
+        Game game = montyHallBusinessBridge.startGame();
+        eventBusinessBridge.sendMessage(game.getId(), "OPEN", null);
+        return ResponseEntity.status(HttpStatus.OK).body(game);
     }
 
     @PutMapping("/v1/game/{gameId}/pickup")
@@ -45,14 +47,14 @@ public class MontyHallController {
     @PutMapping("/v1/game/{gameId}/switch")
     public ResponseEntity<String> switchBox(@PathVariable(value = "gameId") String gameId) {
         String result = montyHallBusinessBridge.switchBox(gameId);
-        eventBusinessBridge.sendMessage(gameId);
+        eventBusinessBridge.sendMessage(gameId, "CLOSED", result);
         return ResponseEntity.status(HttpStatus.OK).body(result);
     }
 
     @PutMapping("/v1/game/{gameId}/stay")
     public ResponseEntity<String> stayBox(@PathVariable(value = "gameId") String gameId) {
         String result = montyHallBusinessBridge.stayBox(gameId);
-        eventBusinessBridge.sendMessage(gameId);
+        eventBusinessBridge.sendMessage(gameId, "CLOSED", result);
         return ResponseEntity.status(HttpStatus.OK).body(result);
     }
 
