@@ -9,10 +9,23 @@
 
 The game can be started using,
 
-1. v1/startGame endpoint. A unique id is generated and seen in the Id field in response
-2. v1/pickBox/{gameId}. User can select the box which will be picked up
-3. v1/reveal/{gameId}. Host can be used to reveal the box
-4. v1/switch/{gameId} and v1/stay/{gameId} can be used to switch or stay with the option
+1. v1/game/start endpoint. A unique id is generated and seen in the Id field in response
+2. v1/game/{gameId}/pickup. User can select the box which will be picked up
+3. v1/game/{gameId}/reveal. Host can be used to reveal the box
+4. v1/game/{gameId}/switch and v1/game/{gameId}/stay can be used to switch or stay with the option
 
+Tech stack:
+
+Java 11
+Spring boot microservices
+H2 database
+Liquibase
+Rabbit Mq
+Spring cache
+
+Rabbit Mq:
+Publisher and Listener.
+
+Publisher pusblish message to Routing key. To consume message, a queue should be binded to routingkey rabbitmq.montyhall.publisher.routingkey for exchange x.montyhall
 
 Monty hall problem - For more information https://en.wikipedia.org/wiki/Monty_Hall_problem
