@@ -16,12 +16,12 @@ The game can be started using,
 
 Tech stack:
 
-Java 11
-Spring boot microservices
-H2 database
-Liquibase
-Rabbit Mq
-Spring cache
+- Java 11
+- Spring boot microservices
+- H2 database
+- Liquibase
+- Rabbit Mq
+- Spring cache
 
 Rabbit Mq:
 Publisher and Listener.
