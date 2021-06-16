@@ -5,7 +5,7 @@
 3. Set java 11 in build path.
 4. mvn clean install
 5. Run TrustlyMontyHallApplication
-6. After application started, use http://localhost:8080/swagger-ui/index.html?configUrl=/v3/api-docs/swagger-config#
+6. After application started, use http://localhost:8081/swagger-ui/index.html?configUrl=/v3/api-docs/swagger-config#
 
 The game can be started using,
 
